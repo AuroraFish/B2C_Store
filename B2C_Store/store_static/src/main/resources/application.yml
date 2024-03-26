@@ -1,0 +1,7 @@
+spring:
+  mvc:
+    # 配置静态资源可以被访问！
+    static-path-pattern: /public/**
+    # spring boot 默认路径为static, 无法识别public, 所以重定向到public
+  resources:
+    static-locations: classpath:/public/

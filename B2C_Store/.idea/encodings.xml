@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/store_admin/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/store_commons/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/store_front_carousel/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/store_front_cart/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/store_front_category/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/store_front_collect/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/store_front_order/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/store_front_product/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/store_front_user/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/store_gateway/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/store_search/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/store_static/src/main/java" charset="UTF-8" />
+  </component>
+</project>

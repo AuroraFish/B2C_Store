@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: search-service
+  cloud:
+    nacos:
+      server-addr: ${AURORA_IP}:8848 #注册中心
+server:
+  port: 3007

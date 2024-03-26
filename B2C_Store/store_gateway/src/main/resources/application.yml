@@ -1,0 +1,45 @@
+# 配置网关
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: user-service           # 1.用户服务转发规则
+          uri: lb://user-service
+          predicates:
+            - Path=/user/**          # 访问user路径转发用户服务
+        - id: static-service         # 2.静态资源服务转发规则
+          uri: lb://static-service
+          predicates:
+            - Path=/public/**        # 访问public路径转发静态资源服务
+        - id: carousel-service       # 3.轮播图服务转发规则
+          uri: lb://carousel-service
+          predicates:
+            - Path=/carousel/**      # 访问public路径转发静态资源服务
+        - id: product-service        # 4.商品服务转发规则
+          uri: lb://product-service
+          predicates:
+            - Path=/product/**       # 访问product相关,转发到product服务
+        - id: category-service       # 5.类别服务转发规则
+          uri: lb://category-service
+          predicates:
+            - Path=/category/**      # 访问category相关,转发到category服务
+        - id: search-service         # 6.搜索服务转发规则
+          uri: lb://search-service
+          predicates:
+            - Path=/search/**        # 访问search相关,转发到search服务
+        - id: collect-service        # 6.收藏服务转发规则
+          uri: lb://collect-service
+          predicates:
+            - Path=/collect/**       # 访问collect相关,转发到collect服务
+        - id: cart-service           # 7.购物车服务转发规则
+          uri: lb://cart-service
+          predicates:
+            - Path=/cart/**          # 访问cart相关,转发到cart服务
+        - id: order-service          # 7.订单服务转发规则
+          uri: lb://order-service
+          predicates:
+            - Path=/order/**         # 访问order相关,转发到order服务
+        - id: admin-service          # 8.后台管理服务转发规则
+          uri: lb://admin-service
+          predicates:
+            - Path=/admin/**         # 访问admin相关,转发到admin服务
