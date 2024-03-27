@@ -133,4 +133,29 @@ public interface ProductService extends IService<Product> {
      * @ description 被后台管理服务调用 保存商品
      */
     R adminSave(ProductSaveParam productSaveParam);
+
+    /**
+     * @ author AuroraCjt
+     * @ date 2024/3/26 15:29
+     * @ param product
+     * @ return 状态码
+     * @ description 被后台管理服务调用 修改商品
+     */
+    R adminUpdate(Product product);
+
+    /**
+     * @ author AuroraCjt
+     * @ date 2024/3/26 15:59
+     * @ param productId
+     * @ return
+     * @ description 被后台管理服务调用 删除商品
+     * @ note 1.检查购物车
+     *        2.检查订单
+     *        3.删除商品
+     *        4.删除商品相关图片
+     *        5.删除收藏中的商品
+     *        6.ES数据库同步
+     *        7.清空缓存
+     */
+    R adminRemove(Integer productId);
 }

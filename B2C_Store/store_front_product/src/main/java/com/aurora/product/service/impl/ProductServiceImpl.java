@@ -1,7 +1,6 @@
 package com.aurora.product.service.impl;
 
-import com.aurora.clients.CategoryClient;
-import com.aurora.clients.SearchClient;
+import com.aurora.clients.*;
 import com.aurora.parama.ProductHotParam;
 import com.aurora.parama.ProductIdsParam;
 import com.aurora.parama.ProductSaveParam;
@@ -24,6 +23,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -51,6 +51,15 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper,Product> imple
 
     @Autowired
     private SearchClient searchClient;
+
+    @Autowired
+    private CartClient cartClient;
+
+    @Autowired
+    private OrderClient orderClient;
+
+    @Autowired
+    private CollectClient collectClient;
 
     /**
      * @ author AuroraCjt
@@ -420,5 +429,81 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper,Product> imple
         searchClient.saveOrUpdate(product);
 
         return R.ok("商品数据添加成功!");
+    }
+
+    /**
+     * @ author AuroraCjt
+     * @ date 2024/3/26 15:29
+     * @ param product
+     * @ return 状态码
+     * @ description 被后台管理服务调用 修改商品
+     * @ note 1.更新商品数据
+     *        2.同步ES搜索数据库
+     */
+    @Override
+    public R adminUpdate(Product product) {
+
+        //1.更新
+        productMapper.updateById(product);
+
+        //2.同步
+        searchClient.saveOrUpdate(product);
+
+        return R.ok("商品数据更新成功");
+    }
+
+    /**
+     * @ author AuroraCjt
+     * @ date 2024/3/26 15:59
+     * @ param productId
+     * @ return
+     * @ description 被后台管理服务调用 删除商品
+     * @ note 1.检查购物车
+     *        2.检查订单
+     *        3.删除商品
+     *        4.删除商品相关图片
+     *        5.删除收藏中的商品
+     *        6.ES数据库同步
+     *        7.清空缓存
+     */
+    @Caching(
+            evict = {
+                    @CacheEvict(value = "product.list",allEntries = true),
+                    @CacheEvict(value = "product",key = "#productId")
+            }
+    )
+    @Override
+    public R adminRemove(Integer productId) {
+
+        //1.检查购物车
+        R r = cartClient.check(productId);
+        if ("004".equals(r.getCode())) {
+            log.info("ProductServiceImpl.adminRemove业务结束, 结果: {}",r.getMsg());
+            return r;
+        }
+
+        //2.检查订单
+        r = orderClient.check(productId);
+        if ("004".equals(r.getCode())) {
+            log.info("ProductServiceImpl.adminRemove业务结束, 结果: {}",r.getMsg());
+            return r;
+        }
+
+        //3.删除商品
+        productMapper.deleteById(productId);
+
+        //4.删除商品图片
+        //查询条件
+        QueryWrapper<Picture> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("product_id",productId);
+        pictureMapper.delete(queryWrapper);
+
+        //5.删除收藏中和本商品有关的
+        collectClient.remove(productId);
+
+        //6.同步数据
+        searchClient.remove(productId);
+
+        return R.ok("商品删除成功!");
     }
 }

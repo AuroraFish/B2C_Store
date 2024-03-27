@@ -119,4 +119,24 @@ public class CollectServiceImpl implements CollectService {
         log.info("CollectServiceImpl.remove业务结束, 结果{}",rows);
         return R.ok("收藏删除成功!");
     }
+
+    /**
+     * @ author AuroraCjt
+     * @ date 2024/3/26 15:55
+     * @ param productId
+     * @ return
+     * @ description 被后台管理服务调用 根据商品ID删除收藏数据
+     */
+    @Override
+    public R removeByPid(Integer productId) {
+
+        //1.查询条件
+        QueryWrapper<Collect> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("product_id",productId);
+
+        //2.数据库操作
+        int rows = collectMapper.delete(queryWrapper);
+        log.info("CollectServiceImpl.removeByPid业务结束, 结果{}",rows);
+        return R.ok("收藏删除成功!");
+    }
 }

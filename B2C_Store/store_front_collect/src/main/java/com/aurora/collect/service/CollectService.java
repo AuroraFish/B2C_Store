@@ -31,4 +31,13 @@ public interface CollectService {
      * @ description 根据用户ID和商品ID删除收藏数据
      */
     R remove(Collect collect);
+
+    /**
+     * @ author AuroraCjt
+     * @ date 2024/3/26 15:55
+     * @ param productId
+     * @ return 
+     * @ description 被后台管理服务调用 根据商品ID删除收藏数据
+     */
+    R removeByPid(Integer productId);
 }

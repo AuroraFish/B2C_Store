@@ -1,6 +1,7 @@
 package com.aurora.product.controller;
 
 import com.aurora.parama.ProductSaveParam;
+import com.aurora.pojo.Product;
 import com.aurora.product.service.ProductService;
 import com.aurora.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +32,17 @@ public class ProductAdminController {
     public R adminSave(@RequestBody ProductSaveParam productSaveParam) {
 
         return productService.adminSave(productSaveParam);
+    }
+
+    @PostMapping("admin/update")
+    public R adminUpdate(@RequestBody Product product) {
+
+        return productService.adminUpdate(product);
+    }
+
+    @PostMapping("admin/remove")
+    public R adminRemove(@RequestBody Integer productId) {
+
+        return productService.adminRemove(productId);
     }
 }

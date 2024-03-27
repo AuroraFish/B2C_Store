@@ -228,4 +228,29 @@ public class CartServiceImpl implements CartService {
         cartMapper.deleteBatchIds(cartIds);
         log.info("CartServiceImpl.clearIds业务结束, 结果{}",cartIds);
     }
+
+    /**
+     * @ author AuroraCjt
+     * @ date 2024/3/26 15:45
+     * @ param productId
+     * @ return 状态码
+     * @ description 被后台管理服务调用 查询购物车项
+     */
+    @Override
+    public R check(Integer productId) {
+
+        //查询条件
+        QueryWrapper<Cart> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("product_id",productId);
+
+        //数据库操作
+        Long count = cartMapper.selectCount(queryWrapper);
+
+        if (count > 0) {
+            //购物车中有需要删除的商品 不允许删除
+            return R.fail("有: "+count+" 件购物车商品引用! 删除失败!");
+        }
+
+        return R.ok("购物车无商品引用!");
+    }
 }

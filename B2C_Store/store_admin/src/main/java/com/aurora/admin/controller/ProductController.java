@@ -4,6 +4,7 @@ import com.aurora.admin.service.ProductService;
 import com.aurora.admin.utils.AliyunOSSUtils;
 import com.aurora.parama.ProductSaveParam;
 import com.aurora.parama.ProductSearchParam;
+import com.aurora.pojo.Product;
 import com.aurora.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -55,5 +56,17 @@ public class ProductController {
     public R adminSave(ProductSaveParam productSaveParam) {
 
         return productService.save(productSaveParam);
+    }
+
+    @PostMapping("update")
+    public R adminUpdate(Product product) {
+
+        return productService.update(product);
+    }
+
+    @PostMapping("remove")
+    public R adminRemove(Integer productId) {
+
+        return productService.remove(productId);
     }
 }

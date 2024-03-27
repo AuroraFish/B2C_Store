@@ -3,7 +3,9 @@ package com.aurora.order.controller;
 import com.aurora.order.service.OrderService;
 import com.aurora.parama.CartListParam;
 import com.aurora.parama.OrderParam;
+import com.aurora.parama.PageParam;
 import com.aurora.utils.R;
+import org.omg.CORBA.OMGVMCID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -38,5 +40,17 @@ public class OrderController {
         }
 
         return orderService.list(cartListParam.getUserId());
+    }
+
+    @PostMapping("remove/check")
+    public R check(@RequestBody Integer productId) {
+
+        return orderService.check(productId);
+    }
+
+    @PostMapping("admin/list")
+    public R adminList(@RequestBody PageParam pageParam) {
+
+        return orderService.adminList(pageParam);
     }
 }

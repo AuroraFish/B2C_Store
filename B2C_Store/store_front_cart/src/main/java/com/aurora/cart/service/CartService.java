@@ -56,4 +56,14 @@ public interface CartService {
      * @ description 清空对应ID的购物车项
      */
     void clearIds(List<Integer> cartIds);
+
+    
+    /**
+     * @ author AuroraCjt
+     * @ date 2024/3/26 15:45
+     * @ param productId
+     * @ return 状态码
+     * @ description 被后台管理服务调用 查询购物车项
+     */
+    R check(Integer productId);
 }

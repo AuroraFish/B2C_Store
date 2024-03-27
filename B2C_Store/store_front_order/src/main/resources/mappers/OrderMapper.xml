@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aurora.order.mapper.OrderMapper">
+
+    <select id="selectAdminOrder" resultType="com.aurora.vo.AdminOrderVo">
+        SELECT order_id, user_id, order_time,
+               COUNT(product_id) AS product_num,
+               SUM(product_num) AS order_num,
+               SUM(product_price) AS order_price
+        FROM orders
+        GROUP BY order_id, user_id, order_time LIMIT #{offset},#{pageSize};
+    </select>
+
+</mapper>

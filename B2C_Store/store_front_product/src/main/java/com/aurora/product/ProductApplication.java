@@ -1,7 +1,6 @@
 package com.aurora.product;
 
-import com.aurora.clients.CategoryClient;
-import com.aurora.clients.SearchClient;
+import com.aurora.clients.*;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
@@ -21,7 +20,7 @@ import javax.swing.*;
  */
 @MapperScan(basePackages = "com.aurora.product.mapper")
 @SpringBootApplication
-@EnableFeignClients(clients = {CategoryClient.class, SearchClient.class})
+@EnableFeignClients(clients = {CollectClient.class,CartClient.class,OrderClient.class,CategoryClient.class, SearchClient.class})
 @EnableCaching                  //使redis缓存配置生效
 public class ProductApplication {
     public static void main(String[] args) {

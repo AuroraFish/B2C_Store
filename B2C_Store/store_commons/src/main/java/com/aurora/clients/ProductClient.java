@@ -66,4 +66,10 @@ public interface ProductClient {
 
     @PostMapping("/product/admin/save")
     R adminSave(@RequestBody ProductSaveParam productSaveParam);
+
+    @PostMapping("/product/admin/update")
+    R adminUpdate(@RequestBody Product product);
+
+    @PostMapping("/product/admin/remove")
+    R adminRemove(@RequestBody Integer productId);
 }

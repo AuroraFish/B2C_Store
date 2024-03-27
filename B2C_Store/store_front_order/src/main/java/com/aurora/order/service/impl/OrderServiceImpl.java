@@ -4,16 +4,19 @@ import com.aurora.clients.ProductClient;
 import com.aurora.order.mapper.OrderMapper;
 import com.aurora.order.service.OrderService;
 import com.aurora.parama.OrderParam;
+import com.aurora.parama.PageParam;
 import com.aurora.parama.ProductCollectParam;
 import com.aurora.pojo.Order;
 import com.aurora.pojo.Product;
 import com.aurora.to.OrderToProduct;
 import com.aurora.utils.R;
+import com.aurora.vo.AdminOrderVo;
 import com.aurora.vo.CartVo;
 import com.aurora.vo.OrderVo;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +46,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
     @Autowired
     private ProductClient productClient;
+
+    @Autowired
+    private OrderMapper orderMapper;
 
     /**
      * @ author AuroraCjt
@@ -171,5 +177,47 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         R ok = R.ok("订单数据获取成功!", result);
         log.info("OrderServiceImpl.list业务结束, 结果{}",ok);
         return ok;
+    }
+
+    /**
+     * @ author AuroraCjt
+     * @ date 2024/3/26 15:50
+     * @ param productId
+     * @ return
+     * @ description 被后台管理服务调用 检查订单中是否有商品引用
+     */
+    @Override
+    public R check(Integer productId) {
+
+        QueryWrapper<Order> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("product_id",productId);
+        Long count = baseMapper.selectCount(queryWrapper);
+
+        if (count > 0) {
+            return R.fail("订单中: "+count+" 件商品引用, 不能删除!");
+        }
+
+        return R.ok("订单中没有商品引用, 可以删除!");
+    }
+
+    /**
+     * @ author AuroraCjt
+     * @ date 2024/3/27 11:33
+     * @ param pageParam 分页查询
+     * @ return 订单Vo对象
+     * @ description 被后台管理服务调用 查询订单数据
+     */
+    @Override
+    public R adminList(PageParam pageParam) {
+
+        //1.分页参数计算
+        int offset = (pageParam.getCurrentPage()-1)* pageParam.getPageSize();
+        int pageSize = pageParam.getPageSize();;
+
+        //2.自定义语句数据库查询
+        List<AdminOrderVo> adminOrderVoList = orderMapper.selectAdminOrder(offset, pageSize);
+
+        //3.结果处理
+        return R.ok("订单数据查询成功!",adminOrderVoList);
     }
 }

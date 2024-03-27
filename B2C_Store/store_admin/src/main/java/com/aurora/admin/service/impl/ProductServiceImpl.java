@@ -5,6 +5,7 @@ import com.aurora.clients.ProductClient;
 import com.aurora.clients.SearchClient;
 import com.aurora.parama.ProductSaveParam;
 import com.aurora.parama.ProductSearchParam;
+import com.aurora.pojo.Product;
 import com.aurora.utils.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,36 @@ public class ProductServiceImpl implements ProductService {
 
         R r = productClient.adminSave(productSaveParam);
         log.info("ProductServiceImpl.save业务结束, 结果{}",r);
+        return r;
+    }
+
+    /**
+     * @ author AuroraCjt
+     * @ date 2024/3/26 15:33
+     * @ param product
+     * @ return 状态码
+     * @ description 后台管理 更新商品数据
+     */
+    @Override
+    public R update(Product product) {
+
+        R r = productClient.adminUpdate(product);
+        log.info("ProductServiceImpl.update业务结束, 结果{}",r);
+        return r;
+    }
+
+    /**
+     * @ author AuroraCjt
+     * @ date 2024/3/26 16:10
+     * @ param productId
+     * @ return 状态码
+     * @ description 后台管理 删除商品数据
+     */
+    @Override
+    public R remove(Integer productId) {
+
+        R r = productClient.adminRemove(productId);
+        log.info("ProductServiceImpl.remove业务结束, 结果{}",r);
         return r;
     }
 }
