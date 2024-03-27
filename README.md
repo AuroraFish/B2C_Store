@@ -770,12 +770,7 @@ POST /product/_doc/1
 
 # 删除数据
 DELETE /product/_doc/1
-
 ```
-
-
-
-
 
 
 
